@@ -1,0 +1,2 @@
+- linear regression in R
+https://www.scribbr.com/statistics/linear-regression-in-r/
