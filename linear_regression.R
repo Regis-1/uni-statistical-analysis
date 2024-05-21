@@ -5,29 +5,22 @@ dataSet <- read_excel("data/R_data.xlsx")
 head(dataSet)
 #View(dataSet)
 
-# Analiza zmiennych niezale¿nych
-## Dochody bud¿etów woj. ~ zgloszenia uprp
-plot(zgloszenia_uprp~doch_budzet, data=dataSet)
+plot(sr_cena_1m2~biblioteki_pub, data=dataSet)
+regBudSrCena <- lm(sr_cena_1m2~biblioteki_pub, data=dataSet)
+summary(regBudSrCena)
+abline(regBudSrCena, col='red')
 
-regBudZglo <- lm(zgloszenia_uprp~doch_budzet, data=dataSet)
-summary(regBudZglo)
-abline(regBudZglo, col='red')
-
-## Iloœæ styp_rektora ~ zgloszenia uprp
-plot(zgloszenia_uprp~styp_rektora, data=dataSet)
-
-regStypZglo <- lm(zgloszenia_uprp~styp_rektora, data=dataSet)
-summary(regStypZglo)
-abline(regStypZglo, col='red')
+plot(sr_cena_1m2~imprezy_rozryw, data=dataSet)
+regBudWydat <- lm(sr_cena_1m2~imprezy_rozryw, data=dataSet)
+summary(regBudWydat)
+abline(regBudWydat, col='red')
 
 korDochStyp <- cor(
-  dataSet$doch_budzet,
-  dataSet$styp_rektora)
+  dataSet$biblioteki_pub,
+  dataSet$imprezy_rozryw)
 
-# multiple linear regression
-# (Avg_flat_price ~ Flats_given_for_rental_or_sell + Students_count)
 regMulVar <- lm(
-  zgloszenia_uprp~styp_rektora+doch_budzet,
+  sr_cena_1m2~imprezy_rozryw+biblioteki_pub,
   data=dataSet)
 
 summary(regMulVar)
