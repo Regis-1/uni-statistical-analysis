@@ -1,26 +1,25 @@
 # wczytywanie danych za pomoc¹ biblioteki readxl
 library(readxl)
-dataSet <- read_excel("data/R_data.xlsx")
+ds <- read_excel("data/R_data2.xlsx")
 
-head(dataSet)
-#View(dataSet)
+head(ds)
+#View(ds)
 
-plot(sr_cena_1m2~biblioteki_pub, data=dataSet)
-regBudSrCena <- lm(sr_cena_1m2~biblioteki_pub, data=dataSet)
-summary(regBudSrCena)
-abline(regBudSrCena, col='red')
+plot(sklepy~linie_kol, data=ds)
+rSL <- lm(sklepy~linie_kol, data=ds)
+summary(rSL)
+abline(rSL, col='red')
 
-plot(sr_cena_1m2~imprezy_rozryw, data=dataSet)
-regBudWydat <- lm(sr_cena_1m2~imprezy_rozryw, data=dataSet)
-summary(regBudWydat)
-abline(regBudWydat, col='red')
+plot(sklepy~muzea, data=ds)
+rSM <- lm(sklepy~muzea, data=ds)
+summary(rSM)
+abline(rSM, col='red')
 
-korDochStyp <- cor(
-  dataSet$biblioteki_pub,
-  dataSet$imprezy_rozryw)
+cor(
+  ds$linie_kol,
+  ds$muzea
+)
 
-regMulVar <- lm(
-  sr_cena_1m2~imprezy_rozryw+biblioteki_pub,
-  data=dataSet)
-
-summary(regMulVar)
+summary(
+  lm(sklepy~muzea+linie_kol, data=ds)
+)
