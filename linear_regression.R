@@ -1,25 +1,13 @@
 # wczytywanie danych za pomoc¹ biblioteki readxl
 library(readxl)
-ds <- read_excel("data/R_data2.xlsx")
+ds <- read_excel("data/R_liniowa.xlsx")
 
 head(ds)
-#View(ds)
+summary(ds)
 
-plot(sklepy~linie_kol, data=ds)
-rSL <- lm(sklepy~linie_kol, data=ds)
-summary(rSL)
-abline(rSL, col='red')
+cor(ds$sklepy, ds$linie_kol)
+cor(ds$sklepy, ds$przystanki)
+cor(ds$przystanki, ds$linie_kol)
 
-plot(sklepy~muzea, data=ds)
-rSM <- lm(sklepy~muzea, data=ds)
-summary(rSM)
-abline(rSM, col='red')
-
-cor(
-  ds$linie_kol,
-  ds$muzea
-)
-
-summary(
-  lm(sklepy~muzea+linie_kol, data=ds)
-)
+mRegLiniowej <- lm(sklepy~przystanki+linie_kol, data=ds)
+summary(mRegLiniowej)
