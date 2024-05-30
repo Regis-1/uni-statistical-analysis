@@ -2,6 +2,11 @@ library(readxl)
 ds <- read_excel("data/R_logistyczna.xlsx")
 
 head(ds)
+summary(ds)
+
+cor(ds$absolwenci, ds$biblioteki)
+cor(ds$absolwenci, ds$licea)
+cor(ds$licea, ds$biblioteki)
 
 mRegLogistycznej <- glm(pow25pat~absolwenci+licea, data=ds, family="binomial")
 summary(mRegLogistycznej)
