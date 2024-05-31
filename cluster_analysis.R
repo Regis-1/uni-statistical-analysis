@@ -18,8 +18,6 @@ head(normalized)
 
 kmOut <- kmeans(normalized, 2)
 list(skupienia=kmOut$cluster, srodki=kmOut$centers, rozmiarGrupy=kmOut$size)
-plot(subSet$dzietnosc, subSet$przyrostNat, pch=kmOut$cluster, col=kmOut$cluster)
-
 list(calkSumaKwad=kmOut$totss, calkSumaKwadWew=kmOut$tot.withinss, calkSumaKwadPomiedzy=kmOut$betweenss)
 
 # dobor k - metoda lokcia
@@ -35,6 +33,11 @@ fviz
 
 kmOut2 <- kmeans(normalized, 4)
 list(skupienia=kmOut2$cluster, srodki=kmOut2$centers, rozmiarGrupy=kmOut2$size)
-plot(subSet$dzietnosc, subSet$przyrostNat, pch=kmOut2$cluster, col=kmOut2$cluster)
-
 list(calkSumaKwad=kmOut2$totss, calkSumaKwadWew=kmOut2$tot.withinss, calkSumaKwadPomiedzy=kmOut2$betweenss)
+
+cluster1 <- ssAsMat[kmOut2$cluster == 1, ]
+cluster2 <- ssAsMat[kmOut2$cluster == 2, ]
+sd_cluster1 <- apply(cluster1, 2, sd)
+sd_cluster2 <- apply(cluster2, 2, sd)
+sd_cluster1; sd_cluster2;
+(100*(kmOut2$betweens/kmOut2$totss))
