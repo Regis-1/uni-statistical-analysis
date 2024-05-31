@@ -1,5 +1,7 @@
-# wczytywanie danych za pomoc¹ biblioteki readxl
+install.packages('readxl')
 library(readxl)
+setwd('uni-statistical-analysis')
+
 ds <- read_excel("data/R_liniowa.xlsx")
 
 head(ds)

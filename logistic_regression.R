@@ -1,4 +1,7 @@
+install.packages('readxl')
 library(readxl)
+setwd('uni-statistical-analysis')
+
 ds <- read_excel("data/R_logistyczna.xlsx")
 
 head(ds)

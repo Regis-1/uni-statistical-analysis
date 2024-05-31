@@ -1,28 +1,40 @@
+install.packages('readxl')
+install.packages('clusterSim')
+install.packages('factoextra')
 library(readxl)
 library(clusterSim)
-library(glmnet)
+library(factoextra)
+setwd('uni-statistical-analysis')
 
 ds <- read.csv("data/R_skupienia.csv", header=TRUE, sep=';')
 head(ds)
 
-A <- ds[, 2:6]
-# niektore funkcje z clusterSim przyjmuja tylko macierz jako argument
-M <- as.matrix(A)
-# podglad macierzy
-head(M)
+subSet <- ds[, 2:6]
+ssAsMat <- as.matrix(subSet)
+head(ssAsMat)
 
+normalized = data.Normalization(ssAsMat, type="n1")
+head(normalized)
 
-# 2) normalizacja za pomoc¹ funkcji dataNormalization
-B = data.Normalization(M, type="n1")
-head(B)
+kmOut <- kmeans(normalized, 2)
+list(skupienia=kmOut$cluster, srodki=kmOut$centers, rozmiarGrupy=kmOut$size)
+plot(subSet$dzietnosc, subSet$przyrostNat, pch=kmOut$cluster, col=kmOut$cluster)
 
-# 3) miara odleg³oœci - Euklides, miejska, Braya-Curtisa,
-dystans = dist(B, method="euclidean")
-#head(dystans)
+list(calkSumaKwad=kmOut$totss, calkSumaKwadWew=kmOut$tot.withinss, calkSumaKwadPomiedzy=kmOut$betweenss)
 
-#Metoda k-œrednich
-ksrednia <- kmeans(A, 5)
-ksrednia$centers
-ksrednia$size
+# dobor k - metoda lokcia
+wss <- tibble::tibble(k=1:10, wcss=NA)
+for (i in wss$k)
+  wss$wcss[i] <- kmeans(x=normalized, centers=i)$tot.withinss
+wss
+plot(wss, type='b', xlab='Liczba skupien', ylab='Wewnatrzgrupowa suma kwadratow')
 
-plot(A, pch=ksrednia$cluster)
+fviz <- factoextra::fviz_nbclust(normalized, FUN=kmeans, method='wss')
+fviz$data
+fviz
+
+kmOut2 <- kmeans(normalized, 4)
+list(skupienia=kmOut2$cluster, srodki=kmOut2$centers, rozmiarGrupy=kmOut2$size)
+plot(subSet$dzietnosc, subSet$przyrostNat, pch=kmOut2$cluster, col=kmOut2$cluster)
+
+list(calkSumaKwad=kmOut2$totss, calkSumaKwadWew=kmOut2$tot.withinss, calkSumaKwadPomiedzy=kmOut2$betweenss)
